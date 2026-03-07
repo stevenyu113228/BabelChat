@@ -1,0 +1,147 @@
+.vc-babelchat-block {
+    border-left: 3px solid var(--brand-500);
+    background: var(--background-secondary);
+    border-radius: 0 4px 4px 0;
+    padding: 8px 12px;
+    margin-top: 4px;
+    font-size: 0.9375rem;
+    line-height: 1.375rem;
+}
+
+
+.vc-babelchat-content {
+    color: var(--text-default, var(--text-normal, #dcddde));
+    white-space: pre-line;
+    word-wrap: break-word;
+}
+
+/* Loading */
+.vc-babelchat-loading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    margin-top: 4px;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.vc-babelchat-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--brand-500);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: vc-babelchat-spin 0.8s linear infinite;
+}
+
+@keyframes vc-babelchat-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Error */
+.vc-babelchat-error {
+    border-left: 3px solid var(--status-danger);
+    background: var(--background-secondary);
+    border-radius: 0 4px 4px 0;
+    padding: 8px 12px;
+    margin-top: 4px;
+    color: var(--status-danger);
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.vc-babelchat-error-actions {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+}
+
+.vc-babelchat-error-btn {
+    cursor: pointer;
+    background: none;
+    border: 1px solid var(--status-danger);
+    border-radius: 4px;
+    color: var(--status-danger);
+    padding: 2px 8px;
+    font-size: 0.75rem;
+}
+
+.vc-babelchat-error-btn:hover {
+    background: var(--status-danger);
+    color: #fff;
+}
+
+/* Sentinel for IntersectionObserver */
+.vc-babelchat-sentinel {
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+
+/* Compose translate button */
+.vc-babelchat-compose {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vc-babelchat-compose svg {
+    color: var(--interactive-normal);
+}
+
+.vc-babelchat-compose:hover svg {
+    color: var(--interactive-hover);
+}
+
+.vc-babelchat-compose[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.vc-babelchat-compose-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--brand-500);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: vc-babelchat-spin 0.8s linear infinite;
+}
+
+/* Floating translate-all button */
+.vc-babelchat-fab {
+    z-index: 9999;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: var(--background-secondary-alt);
+    color: var(--interactive-normal);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+    opacity: 0.55;
+}
+
+.vc-babelchat-fab:hover {
+    opacity: 1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.vc-babelchat-fab-active {
+    background: var(--status-positive, #3ba55d);
+    color: #fff;
+    opacity: 0.85;
+}
+
+.vc-babelchat-fab-active:hover {
+    opacity: 1;
+    filter: brightness(1.1);
+}
