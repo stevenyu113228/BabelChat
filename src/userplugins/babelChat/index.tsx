@@ -10,6 +10,7 @@ import { FloatingTranslateButton } from "./components/FloatingButton";
 import { TranslationBlock, triggerTranslation } from "./components/TranslationBlock";
 import { settings } from "./settings";
 import { deactivateBulkTranslate } from "./utils/bulkTranslateManager";
+import { flushCache, initCache } from "./utils/cache";
 
 const messageCtxPatch: NavContextMenuPatchCallback = (children, { message }: { message: Message; }) => {
     if (!message.content) return;
@@ -91,6 +92,7 @@ export default definePlugin({
     },
 
     start() {
+        void initCache();
         FluxDispatcher.subscribe("MESSAGE_CREATE", handleMessageCreate);
         mountFab();
     },
@@ -99,5 +101,6 @@ export default definePlugin({
         FluxDispatcher.unsubscribe("MESSAGE_CREATE", handleMessageCreate);
         unmountFab();
         deactivateBulkTranslate();
+        void flushCache();
     },
 });

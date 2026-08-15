@@ -1,7 +1,7 @@
 import { PluginNative } from "@utils/types";
 
 import { settings } from "../settings";
-import { getCached, setCache, TranslationResult } from "../utils/cache";
+import { getCached, initCache, makeCacheKey, setCache, TranslationResult } from "../utils/cache";
 import { DEFAULT_SYSTEM_PROMPT } from "../utils/constants";
 
 const Native = VencordNative.pluginHelpers.BabelChat as PluginNative<typeof import("../native")>;
@@ -12,8 +12,9 @@ export async function translateText(content: string, targetLang?: string): Promi
 
     const { apiEndpoint, apiKey, model, targetLanguage, systemPrompt } = settings.store;
     const lang = targetLang ?? targetLanguage;
-    const cacheKey = trimmed + "\0" + lang;
+    const cacheKey = makeCacheKey(trimmed, lang);
 
+    await initCache();
     const cached = getCached(cacheKey);
     if (cached) return cached;
 
