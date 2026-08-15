@@ -2,8 +2,10 @@ import { Parser, useEffect, useRef, useState } from "@webpack/common";
 import { Message } from "@vencord/discord-types";
 
 import { translateText } from "../api/translate";
-import { cl } from "../utils/constants";
+import { settings } from "../settings";
 import { enqueueBulkTranslation, isBulkTranslateActive, subscribeBulkTranslate } from "../utils/bulkTranslateManager";
+import { getCached, initCache, makeCacheKey } from "../utils/cache";
+import { cl } from "../utils/constants";
 
 type TranslationState =
     | { type: "idle"; }
@@ -76,17 +78,43 @@ export function TranslationBlock({ message }: { message: Message; }) {
     const sentinelRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        let cancelled = false;
         stateSetters.set(message.id, setState);
-        // Restore persisted translation on remount
+        // Restore in-session translation on remount
         const persisted = currentStates.get(message.id);
         if (persisted && persisted.type !== "idle") {
             setState(persisted);
         }
+
+        // Restore from IndexedDB-backed cache (survives app restart)
+        if (message.content?.trim()) {
+            void initCache().then(() => {
+                if (cancelled) return;
+                const current = currentStates.get(message.id);
+                if (current?.type === "loading" || current?.type === "error") return;
+
+                const cached = getCached(makeCacheKey(message.content, settings.store.targetLanguage));
+                if (!cached || cached.skipped) {
+                    if (current?.type === "success") {
+                        const idle: TranslationState = { type: "idle" };
+                        currentStates.set(message.id, idle);
+                        setState(idle);
+                    }
+                    return;
+                }
+
+                const success: TranslationState = { type: "success", text: cached.text };
+                currentStates.set(message.id, success);
+                setState(success);
+            });
+        }
+
         return () => {
+            cancelled = true;
             stateSetters.delete(message.id);
             currentStates.delete(message.id);
         };
-    }, [message.id]);
+    }, [message.id, message.content]);
 
     // IntersectionObserver for bulk translate
     useEffect(() => {
