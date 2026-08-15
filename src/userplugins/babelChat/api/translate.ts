@@ -21,13 +21,15 @@ export async function translateText(content: string, targetLang?: string): Promi
     const prompt = (systemPrompt || DEFAULT_SYSTEM_PROMPT)
         .replaceAll("{targetLanguage}", lang);
 
+    const temperature = /gpt-5-nano/i.test(model) ? 1 : 0.1;
+
     const body = JSON.stringify({
         model,
         messages: [
             { role: "system", content: prompt },
             { role: "user", content: trimmed },
         ],
-        temperature: 0.1,
+        temperature,
     });
 
     const { status, data } = await Native.translateRequest(apiEndpoint, apiKey, body);
