@@ -143,7 +143,7 @@ After enabling BabelChat, click its **settings gear** icon to configure:
 | **Model** | Model name (default: `gpt-4o-mini`) |
 | **Target Language** | Language to translate incoming messages into |
 | **Compose Language** | Language to translate your outgoing input into |
-| **Auto Translate** | Automatically translate all new messages |
+| **Auto Translate** | Automatically translate received messages (does not affect messages you send) |
 | **System Prompt** | Custom prompt (use `{targetLanguage}` as placeholder) |
 
 ### Quick Start: OpenRouter (Free, No Credit Card)
@@ -214,10 +214,14 @@ rm -rf ~/.vencord-src  # macOS / Linux
 
 ## Troubleshooting
 
+> For issues not covered here, read the [full troubleshooting guide](docs/TROUBLESHOOTING.md)（[中文](docs/TROUBLESHOOTING-zh.md)）.
+
 | Problem | Solution |
 |---|---|
 | Plugin doesn't appear in settings | Make sure you restarted Discord completely (not just minimized). Check that BabelChat is enabled in Vencord > Plugins. |
 | "Network error" or "API error" | Double-check your API Endpoint URL and API Key in BabelChat settings. |
+| "API error 404" | The API Endpoint must be the **full URL** (ending in `/chat/completions`, e.g. `https://api.deepseek.com/chat/completions`) — the plugin does not append the path for you. |
+| My sent messages aren't translated | Compose translation is **manual**: type your text but don't press Enter, click the translate button in the chat bar (appears when the input is non-empty) to replace the input with the translation, then send it yourself. |
 | Translation returns gibberish | Try a different model. Larger models (27B+) give better translations. |
 | Discord reverted after update | Discord updates can remove Vencord. Re-run the install script to re-inject. |
 

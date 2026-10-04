@@ -143,7 +143,7 @@ bash install.sh ~/path/to/your/Vencord          # macOS / Linux
 | **Model** | 模型名稱（預設：`gpt-4o-mini`） |
 | **Target Language** | 收到的訊息要翻譯成的語言 |
 | **Compose Language** | 撰寫訊息時要翻譯成的語言 |
-| **Auto Translate** | 自動翻譯所有新訊息 |
+| **Auto Translate** | 自動翻譯收到的新訊息（不影響你送出的訊息） |
 | **System Prompt** | 自訂提示詞（使用 `{targetLanguage}` 作為佔位符） |
 
 ### 快速開始：OpenRouter（免費，不需信用卡）
@@ -214,10 +214,14 @@ rm -rf ~/.vencord-src  # macOS / Linux
 
 ## 常見問題
 
+> 這裡沒有涵蓋的問題，請閱讀[完整疑難排解指南](docs/TROUBLESHOOTING-zh.md)（[English](docs/TROUBLESHOOTING.md)）。
+
 | 問題 | 解決方式 |
 |---|---|
 | 插件沒有出現在設定裡 | 確認你已完全重啟 Discord（不是只有最小化）。檢查 Vencord > Plugins 中 BabelChat 是否啟用。 |
 | 「Network error」或「API error」 | 檢查 BabelChat 設定中的 API Endpoint 網址和 API Key 是否正確。 |
+| 「API error 404」 | API Endpoint 必須是**完整網址**（結尾為 `/chat/completions`，如 `https://api.deepseek.com/chat/completions`），插件不會自動補上路徑。 |
+| 我發出的訊息沒有被翻譯 | 撰寫翻譯是**手動**流程：輸入文字後先別按 Enter，點擊聊天欄的翻譯按鈕（輸入框有文字時才出現）把輸入框替換為譯文，再自行送出。 |
 | 翻譯結果亂碼或品質差 | 試試不同的模型。較大的模型（27B 以上）翻譯品質較好。 |
 | Discord 更新後失效 | Discord 更新可能會移除 Vencord。重新執行安裝腳本即可恢復。 |
 
